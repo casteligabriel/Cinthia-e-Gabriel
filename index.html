@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chá de Casamento - Cinthia e Gabriel</title>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff8f0;
+      padding: 20px;
+      margin: 0;
+    }
+    h1 {
+      text-align: center;
+      color: #b85c5c;
+      margin-top: 20px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      padding: 15px;
+      text-align: center;
+      box-shadow: 2px 2px 8px rgba(0,0,0,0.05);
+      transition: transform 0.2s ease;
+    }
+    .card:hover {
+      transform: scale(1.03);
+    }
+    .card img {
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+    .card-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .card-price {
+      color: #333;
+      margin-bottom: 10px;
+    }
+    button {
+      background-color: #b85c5c;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #a24d4d;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+    }
+    .modal-content {
+      background-color: #fff;
+      margin: 10% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 300px;
+      text-align: center;
+      border-radius: 10px;
+      position: relative;
+    }
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      color: #aaa;
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .close:hover {
+      color: black;
+    }
+    .qrcode-text {
+      margin-top: 15px;
+      font-size: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Cinthia e Gabriel 💕</h1>
+
+  <div class="grid">
+    <!-- Cartões dos presentes -->
+    <!-- Você pode duplicar ou editar os blocos abaixo -->
+    <!-- Substituir imagens conforme desejar -->
+    <!-- Exemplo com 10 itens -->
+    <!-- Início dos cards -->
+    ${[...Array(10).keys()].map(i => {
+      const valor = 50 + i * 25;
+      const index = i + 1;
+      return `
+      <div class="card">
+        <img src="images/presente${index}.gif" alt="Presente ${index}">
+        <div class="card-title">Presente ${index} especial</div>
+        <div class="card-price">R$ ${valor.toFixed(2)}</div>
+        <button onclick="gerarPix(${valor}, 'Presente ${index}')">Presentear</button>
+      </div>
+      `;
+    }).join("")}
+    <!-- Fim dos cards -->
+  </div>
+
+  <!-- Modal para QR Code -->
+  <div id="qrModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="fecharModal()">&times;</span>
+      <h3 id="tituloModal">Pagamento via Pix</h3>
+      <canvas id="canvasQr"></canvas>
+      <div class="qrcode-text" id="textoQr"></div>
+    </div>
+  </div>
+
+  <script>
+    const chavePix = "19994445973";
+
+    function gerarPix(valor, descricao) {
+      const nome = "Gabriel Casteli Fontes";
+      const cidade = "MogiGuacu";
+
+      function format(id, content) {
+        let len = content.length.toString().padStart(2, "0");
+        return id + len + content;
+      }
+
+      const payloadSemCRC =
+        format("00", "01") +
+        format("26", format("00", "BR.GOV.BCB.PIX") + format("01", chavePix)) +
+        format("52", "0000") +
+        format("53", "986") +
+        format("54", valor.toFixed(2)) +
+        format("58", "BR") +
+        format("59", nome) +
+        format("60", cidade) +
+        format("62", format("05", descricao)) +
+        "6304";
+
+      function crc16(str) {
+        let crc = 0xFFFF;
+        for (let i = 0; i < str.length; i++) {
+          crc ^= str.charCodeAt(i) << 8;
+          for (let j = 0; j < 8; j++) {
+            if (crc & 0x8000) {
+              crc = (crc << 1) ^ 0x1021;
+            } else {
+              crc = crc << 1;
+            }
+            crc &= 0xFFFF;
+          }
+        }
+        return crc.toString(16).toUpperCase().padStart(4, "0");
+      }
+
+      const payloadFinal = payloadSemCRC + crc16(payloadSemCRC);
+
+      document.getElementById("tituloModal").innerText = `Pagamento de R$ ${valor.toFixed(2)}`;
+      QRCode.toCanvas(document.getElementById("canvasQr"), payloadFinal, { width: 220 });
+      document.getElementById("textoQr").innerHTML = `
+        <p><strong>Chave Pix:</strong><br><code>${chavePix}</code></p>
+        <p>Se preferir, envie diretamente para a chave acima.</p>
+      `;
+      document.getElementById("qrModal").style.display = "block";
+    }
+
+    function fecharModal() {
+      document.getElementById("qrModal").style.display = "none";
+    }
+
+    window.onclick = function(event) {
+      const modal = document.getElementById("qrModal");
+      if (event.target == modal) {
+        fecharModal();
+      }
+    }
+  </script>
+</body>
+</html>
