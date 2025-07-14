@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cinthia e Gabriel</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff8f0;
+      padding: 20px;
+      margin: 0;
+    }
+    h1 {
+      text-align: center;
+      color: #b85c5c;
+      margin-top: 20px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      padding: 15px;
+      text-align: center;
+      box-shadow: 2px 2px 8px rgba(0,0,0,0.05);
+      transition: transform 0.2s ease;
+    }
+    .card:hover {
+      transform: scale(1.03);
+    }
+    .card img {
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+    .card-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .card-price {
+      color: #333;
+      margin-bottom: 10px;
+    }
+    button {
+      background-color: #b85c5c;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #a24d4d;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+    }
+    .modal-content {
+      background-color: #fff;
+      margin: 10% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 320px;
+      text-align: center;
+      border-radius: 10px;
+      position: relative;
+    }
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      color: #aaa;
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .close:hover {
+      color: black;
+    }
+    .qrcode-text {
+      margin-top: 15px;
+      font-size: 15px;
+      word-break: break-all;
+    }
+    textarea#pixCopiaCola {
+      width: 100%;
+      height: 80px;
+      resize: none;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-family: monospace;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Cinthia e Gabriel 💕</h1>
+
+<div class="grid">
+  <!-- Contribuição Livre -->
+  <div class="card">
+    <img src="images/presente0.gif" alt="Contribuição Livre" />
+    <div class="card-title">Contribuição Livre</div>
+    <div class="card-price">Você escolhe o valor</div>
+    <button onclick="mostrarQr('Contribuição Livre', 'images/qrcodes/qr0.png', pixCodes.qr0)">Contribuir</button>
+  </div>
+
+  <!-- Presentes fixos -->
+  <div class="card">
+    <img src="images/presente1.gif" alt="Presente 1" />
+    <div class="card-title">Corte de cabelo para o noivo</div>
+    <div class="card-price">R$ 35,00</div>
+    <button onclick="mostrarQr('Presente 1', 'images/qrcodes/qr35.png', pixCodes.qr35)">Presentear</button>
+  </div>
+
+  <div class="card">
+    <img src="images/presente2.gif" alt="Presente 2" />
+    <div class="card-title">Cesto de roupa suja com GPS</div>
+    <div class="card-price">R$ 40,00</div>
+    <button onclick="mostrarQr('Presente 2', 'images/qrcodes/qr40.png', pixCodes.qr40)">Presentear</button>
+  </div>
+
+  <div class="card">
+    <img src="images/presente3.gif" alt="Presente 3" />
+    <div class="card-title">Churrasqueira pra provocar os vizinhos</div>
+    <div class="card-price">R$ 45,00</div>
+    <button onclick="mostrarQr('Presente 3', 'images/qrcodes/qr45.png', pixCodes.qr45)">Presentear</button>
+  </div>
+
+  <div class="card">
+    <img src="images/presente4.gif" alt="Presente 4" />
+    <div class="card-title">Curso de faz tudo para o noivo</div>
+    <div class="card-price">R$ 50,00</div>
+    <button onclick="mostrarQr('Presente 4', 'images/qrcodes/qr50.png', pixCodes.qr50)">Presentear</button>
+  </div>
+
+  <div class="card">
+    <img src="images/presente5.gif" alt="Presente 5" />
+    <div class="card-title">Cobertor da razão</div>
+    <div class="card-price">R$ 55,00</div>
+    <button onclick="mostrarQr('Presente 5', 'images/qrcodes/qr55.png', pixCodes.qr55)">Presentear</button>
+  </div>
+
+  <div class="card">
+    <img src="images/presente6.gif" alt="Presente 6" />
+    <div class="card-title">Videogame para o noivo</div>
+    <div class="card-price">R$ 60,00</div>
+    <button onclick="mostrarQr('Presente 6', 'images/qrcodes/qr60.png', pixCodes.qr60)">Presentear</button>
+  </div>
+
+  <div class="card">
+    <img src="images/presente7.gif" alt="Presente 7" />
+    <div class="card-title">Treinamento anti-TPM</div>
+    <div class="card-price">R$ 65,00</div>
+    <button onclick="mostrarQr('Presente 7', 'images/qrcodes/qr65.png', pixCodes.qr65)">Presentear</button>
+  </div>
+
+  <div class="card">
+    <img src="images/presente8.gif" alt="Presente 8" />
+    <div class="card-title">Kit calmante para a noiva</div>
+    <div class="card-price">R$ 70,00</div>
+    <button onclick="mostrarQr('Presente 8', 'images/qrcodes/qr70.png', pixCodes.qr70)">Presentear</button>
+  </div>
+
+  <div class="card">
+    <img src="images/presente9.gif" alt="Presente 9" />
+    <div class="card-title">Pratos novos para visitas</div>
+    <div class="card-price">R$ 75,00</div>
+    <button onclick="mostrarQr('Presente 9', 'images/qrcodes/qr75.png', pixCodes.qr75)">Presentear</button>
+  </div>
+
+  <div class="card">
+    <img src="images/presente10.gif" alt="Presente 10" />
+    <div class="card-title">Copos para repor</div>
+    <div class="card-price">R$ 80,00</div>
+    <button onclick="mostrarQr('Presente 10', 'images/qrcodes/qr80.png', pixCodes.qr80)">Presentear</button>
+  </div>
+</div>
+
+<!-- Modal QR Code -->
+<div id="qrModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="fecharModal()">&times;</span>
+    <h3 id="tituloModal"></h3>
+    <img id="imagemQr" src="" style="width: 220px; height: 220px;" alt="QR Code" />
+    <div class="qrcode-text" id="textoQr">
+      <p><strong>Chave Pix:</strong><br><code>19994445973</code></p>
+      <p>Ou aponte a câmera para o QR Code acima.</p>
+      <p><strong>Código Pix (copia e cola):</strong></p>
+      <textarea id="pixCopiaCola" readonly></textarea>
+      <button onclick="copiarPix()" style="margin-top: 10px;">Copiar código Pix</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const pixCodes = {
+    qr0: "00020126360014BR.GOV.BCB.PIX0114+55199944459735204000053039865802BR5924CINTHIA DA SILVA ZACARAO6006MOCOCA622605222ZKniNwvR7ET5TaCUL4bAM63047CC7",
+    qr35: "00020126360014BR.GOV.BCB.PIX0114+5519994445973520400005303986540535.005802BR5924CINTHIA DA SILVA ZACARAO6006MOCOCA62250521XEbUcnDFMy82Vq0cka95S63041343",
+    qr40: "00020126360014BR.GOV.BCB.PIX0114+5519994445973520400005303986540540.005802BR5924CINTHIA DA SILVA ZACARAO6006MOCOCA622605225aOHibkStCW6eM3iErQ8SV63044DDD",
+    qr45: "00020126360014BR.GOV.BCB.PIX0114+5519994445973520400005303986540545.005802BR5924CINTHIA DA SILVA ZACARAO6006MOCOCA622605222IOxLy1MfxTkGl51bCGbix6304F26F",
+    qr50: "00020126360014BR.GOV.BCB.PIX0114+5519994445973520400005303986540550.005802BR5924CINTHIA DA SILVA ZACARAO6006MOCOCA622605227PH0lnmaD63R3CclhTy1VK6304A05C",
+    qr55: "00020126360014BR.GOV.BCB.PIX0114+5519994445973520400005303986540555.005802BR5924CINTHIA DA SILVA ZACARAO6006MOCOCA622605222cOrnKn4HmAlwofGG5pWYI6304E3E4",
+    qr60: "00020126360014BR.GOV.BCB.PIX0114+5519994445973520400005303986540560.005802BR5924CINTHIA DA SILVA ZACARAO6006MOCOCA622605222IqBuJ9nnQzgHRKJtkVpeJ63044E82",
+    qr65: "00020126360014BR.GOV.BCB.PIX0114+5519994445973520400005303986540565.005802BR5924CINTHIA DA SILVA ZACARAO6006MOCOCA622605225ov8m9V5jt6UvMHYb8t5LW6304A1AB",
+    qr70: "00020126360014BR.GOV.BCB.PIX0114+5519994445973520400005303986540570.005802BR5924CINTHIA DA SILVA ZACARAO6006MOCOCA6226052243sUwBLtIrwFRbN80Tk3FQ630470E4",
+    qr75: "00020126360014BR.GOV.BCB.PIX0114+5519994445973520400005303986540575.005802BR5924CINTHIA DA SILVA ZACARAO6006MOCOCA6226052256ngYsovb7qnvvz7Z5lrUd63047840",
+    qr80: "00020126360014BR.GOV.BCB.PIX0114+5519994445973520400005303986540580.005802BR5924CINTHIA DA SILVA ZACARAO6006MOCOCA62250521TDEv9MhJhtr0OonbzJPgn63044493"
+  };
+
+  function mostrarQr(titulo, imagemSrc, pixCode) {
+    document.getElementById("tituloModal").innerText = titulo;
+    document.getElementById("imagemQr").src = imagemSrc;
+    document.getElementById("pixCopiaCola").value = pixCode;
+    document.getElementById("qrModal").style.display = "block";
+  }
+
+  function copiarPix() {
+    const campo = document.getElementById("pixCopiaCola");
+    campo.select();
+    campo.setSelectionRange(0, 99999); // Para dispositivos móveis
+    document.execCommand("copy");
+    alert("Código Pix copiado para a área de transferência!");
+  }
+
+  function fecharModal() {
+    document.getElementById("qrModal").style.display = "none";
+  }
+
+  window.onclick = function(event) {
+    const modal = document.getElementById("qrModal");
+    if (event.target == modal) {
+      fecharModal();
+    }
+  };
+</script>
+
+</body>
+</html>
